@@ -6,7 +6,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: svc-latebinding
+  storageClassName: svc
   resources:
     requests:
       storage: 5Gi
