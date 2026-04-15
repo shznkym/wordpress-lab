@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: wordpress-lab
+  namespace: argocd-instance-1
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/shznkym/wordpress-lab.git
+    targetRevision: HEAD
+    path: overlays/lab
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: wordpress-lab
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m

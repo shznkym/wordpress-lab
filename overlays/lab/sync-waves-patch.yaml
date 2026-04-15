@@ -1,0 +1,71 @@
+# ============================================================
+# Sync Waves Patch
+# ArgoCD Sync Wave アノテーションを各リソースに付与する
+#
+# Wave 0: Namespace（最初に作成）
+# Wave 1: PVC（ストレージの確保）
+# Wave 2: MySQL Deployment + Service（DB を先に起動）
+# Wave 3: WordPress Deployment + Service（アプリを最後に起動）
+# ============================================================
+
+# --- Wave 0: Namespace ---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: wordpress-lab
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+---
+# --- Wave 1: PVC (MySQL) ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pvc
+  namespace: wordpress-lab
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+---
+# --- Wave 1: PVC (WordPress) ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: wordpress-pvc
+  namespace: wordpress-lab
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+---
+# --- Wave 2: MySQL Deployment ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+  namespace: wordpress-lab
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+---
+# --- Wave 2: MySQL Service ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+  namespace: wordpress-lab
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+---
+# --- Wave 3: WordPress Deployment ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordpress
+  namespace: wordpress-lab
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+---
+# --- Wave 3: WordPress Service ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordpress
+  namespace: wordpress-lab
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"

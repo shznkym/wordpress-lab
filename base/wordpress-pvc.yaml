@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: wordpress-pvc
+  namespace: wordpress-lab
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: svc-latebinding
+  resources:
+    requests:
+      storage: 5Gi
