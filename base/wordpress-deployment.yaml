@@ -17,9 +17,22 @@ spec:
       labels:
         app: wordpress
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 33
+        runAsGroup: 33
+        fsGroup: 33
+        seccompProfile:
+          type: RuntimeDefault
       containers:
         - name: wordpress
           image: wordpress:6.4-apache
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: false
           env:
             - name: WORDPRESS_DB_HOST
               value: "mysql.wordpress-lab.svc.cluster.local:3306"
