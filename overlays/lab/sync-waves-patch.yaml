@@ -71,3 +71,12 @@ metadata:
   namespace: wordpress-lab
   annotations:
     argocd.argoproj.io/sync-wave: "2"
+
+# --- Wave 3: WordPress Ingress ---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: wordpress-ingress
+  namespace: wordpress-lab
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"

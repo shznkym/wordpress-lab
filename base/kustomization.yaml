@@ -9,3 +9,4 @@ resources:
   - mysql-service.yaml
   - wordpress-deployment.yaml
   - wordpress-service.yaml
+  - wordpress-ingress.yaml

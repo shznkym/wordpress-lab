@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: wordpress-ingress
+  namespace: wordpress-lab
+  annotations:
+    ako.vmware.com/enable-tls: "false" # 最初はHTTPで疎通確認
+spec:
+  ingressClassName: avi-lb
+  rules:
+  - host: wordpress.shozohs.com  # 任意のホスト名
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: wordpress
+            port:
+              number: 80
